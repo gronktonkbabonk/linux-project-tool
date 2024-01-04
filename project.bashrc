@@ -51,7 +51,7 @@ project [directory] -f: this will change the directory of where your projects ar
 project [texteditor] -t: this will alter the text editor to the one specified. It needs to be able to open folders in the console.
 
 project -h/ --help: show this screen"
-
+return 0
 fi
     if [ ! -d "$project_path" ]; then
         project_exists=0
