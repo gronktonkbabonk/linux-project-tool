@@ -1,9 +1,13 @@
 #PUT THIS AT THE BOTTOM OF YOUR .BASHRC FILE
-function project() {
+function project()   {
 
-    DIR_CONFIG_FILE="$HOME/.project_config"
-    TEXED_CONFIG_FILE="$HOME/.text_editor_config"
+    DIR_CONFIG_FILE="$HOME/project_cfg/.dir_project_config"
+    TEXED_CONFIG_FILE="$HOME/project_cfg/.text_editor_config"
 
+    if [ ! -d "$HOME/project_cfg" ]; then
+        mkdir "$HOME/project_cfg"
+    fi
+        
     # Check if a project name is passed as an argument
     if [ $# -eq 0 ]; then
         echo "Please provide arguments."
@@ -112,58 +116,5 @@ fi
             ;;
     esac
     gnome-terminal --tab --working-directory="$project_path" -- bash -c "$text_editor / ; bash"
-    xdg-open "$project_path" &>/dev/null
-}
-
-
-    case "$2" in
-        "-b" )
-            if [ "$project_exists" -eq 0 ]; then
-                echo "$1 is not a recognized project in $project_dir"
-                return 1
-            else
-                cd "$project_path/build" || echo "$1 is not a recognized project in $project_dir"
-            fi
-            ;;
-        "-c" )
-            mkdir "$project_dir/$project_name"
-            echo "Project $project_name created"
-            if [ "$3" == "-o" ]; then
-                cd "$project_dir/$project_name"
-                gnome-terminal --tab --working-directory="$project_path" -- "$text_editor"
-                xdg-open "$project_path" &>/dev/null
-            fi
-            return 0
-            ;;
-        "-f" )
-            if [ -d "$1" ]; then
-                # Set the project directory in the config file
-                echo "$1" > "$DIR_CONFIG_FILE"
-                echo "Project directory changed to $1"
-                return 0
-            else
-                echo "Directory $1 does not exist."
-                return 1
-            fi
-            ;;
-        "-t" )
-            echo "$1" > "$TEXED_CONFIG_FILE"
-            echo "Text editor changed to $1. reminder that it needs to be able to open folders in the console."
-            return 1
-            ;;
-        "" )
-            if [ "$project_exists" -eq 0 ]; then
-                echo "$1 is not a recognized project in $project_dir"
-                return 1
-            else
-                cd "$project_path"
-            fi  
-            ;;
-        * )
-            echo "Invalid option."
-            return 1
-            ;;
-    esac
-    gnome-terminal --tab --working-directory="$project_path" -- "$text_editor"
-    xdg-open "$project_path" &>/dev/null
+    xdg-open "$project_path" &>/dev/null 
 }
