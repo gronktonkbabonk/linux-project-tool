@@ -12,14 +12,18 @@ Run ``project -h`` for help.
 ## Features:
 a "project" is just a file containing all your code, your build file ect for a, well, project.
 this tool can currently:
+
 create projects
+
 open projects by cd'ing into them and opening the project in your text editor of choice (default nvim) and the file browser.
+
 change the folder where projects are created and looked for.
 
 (p.s this is just the outline. running ``project -h`` will give you the full usage.)
 
 ## Currently tested and confirmed working editors:
 nvim, vim and vi
+
 subl
 
 ### Notes:
