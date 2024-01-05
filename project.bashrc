@@ -4,8 +4,8 @@ function project()   {
     DIR_CONFIG_FILE="$HOME/.config/project_tool/.dir_project_config"
     TEXED_CONFIG_FILE="$HOME/.config/project_tool/.text_editor_config"
 
-    if [ ! -d "$HOME/project_cfg" ]; then
-        mkdir "$HOME/project_cfg"
+    if [ ! -d "$HOME/.config/project_tool/" ]; then
+        mkdir "$HOME/.config/project_tool/"
     fi
         
     # Check if a project name is passed as an argument
