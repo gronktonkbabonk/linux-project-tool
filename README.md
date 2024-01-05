@@ -1,5 +1,4 @@
 # linux-project-tool
-A small project handler i created for myself. feel free to use it!
 
 ## Description:
 An extremely lightweight project manager that i find helps me to easily pick up where i left off.
