@@ -85,12 +85,12 @@ fi
         "-f" )
             if [ "$3" == "-d" ]; then
                 rm -rf "$project_dir"
-                echo "deleted $project_dir and it's contents.'"
+                echo "deleted $project_dir and it's contents."
             fi
             if [ -d "$1" ]; then
                 # Set the project directory in the config file
                 echo "$1" > "$DIR_CONFIG_FILE"
-                echo "Project directory changed to $1"
+                echo "Project directory changed to $1. remember you have to have typed out the full directory. putting conditionals like ./ is not interpreted correctly."
                 return 0
             else
                 echo "Directory $1 does not exist."
