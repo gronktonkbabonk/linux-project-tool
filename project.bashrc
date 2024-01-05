@@ -1,8 +1,8 @@
 #PUT THIS AT THE BOTTOM OF YOUR .BASHRC FILE
 function project()   {
 
-    DIR_CONFIG_FILE="$HOME/project_cfg/.dir_project_config"
-    TEXED_CONFIG_FILE="$HOME/project_cfg/.text_editor_config"
+    DIR_CONFIG_FILE="$HOME/.config/.dir_project_config"
+    TEXED_CONFIG_FILE="$HOME/.config/.text_editor_config"
 
     if [ ! -d "$HOME/project_cfg" ]; then
         mkdir "$HOME/project_cfg"
