@@ -48,15 +48,74 @@ project [newprojectname] -c: this will create a new project in your project dire
 project [newprojectname] -c -o: this will do the same as above, but also open it as if you had opened it with this tool
 
 project [directory] -f: this will change the directory of where your projects are created and looked for.
+project [directory] -f -d: additionally deletes the old project file and its contents.
 project [texteditor] -t: this will alter the text editor to the one specified. It needs to be able to open folders in the console.
 
 project -h/ --help: show this screen"
 return 0
+
 fi
     if [ ! -d "$project_path" ]; then
         project_exists=0
     fi
     
+    case "$2" in
+        "-b" )
+            if [ "$project_exists" -eq 0 ]; then
+                echo "$1 is not a recognized project in $project_dir"
+                return 1
+            else
+                cd "$project_path/build" || echo "$1 is not a recognized project in $project_dir"
+            fi
+            ;;
+        "-c" )
+            mkdir "$project_dir/$project_name"
+            echo "Project $project_name created"
+            if [ "$3" == "-o" ]; then
+                cd "$project_dir/$project_name"
+                gnome-terminal --tab --working-directory="$project_path" -- "$text_editor /"
+                xdg-open "$project_path" &>/dev/null
+            fi
+            return 0
+            ;;
+        "-f" )
+            if [ "$3" == "-d" ]; then
+                rm -rf "$project_dir"
+                echo "deleted $project_dir and it's contents.'"
+            fi
+            if [ -d "$1" ]; then
+                # Set the project directory in the config file
+                echo "$1" > "$DIR_CONFIG_FILE"
+                echo "Project directory changed to $1"
+                return 0
+            else
+                echo "Directory $1 does not exist."
+                return 1
+            fi
+            ;;
+        "-t" )
+            echo "$1" > "$TEXED_CONFIG_FILE"
+            echo "Text editor changed to $1. reminder that it needs to be able to open folders in the console."
+            return 1
+            ;;
+        "" )
+            if [ "$project_exists" -eq 0 ]; then
+                echo "$1 is not a recognized project in $project_dir"
+                return 1
+            else
+                cd "$project_path"
+            fi  
+            ;;
+        * )
+            echo "Invalid option."
+            return 1
+            ;;
+    esac
+    gnome-terminal --tab --working-directory="$project_path" -- bash -c "$text_editor / ; bash"
+    xdg-open "$project_path" &>/dev/null
+}
+
+
     case "$2" in
         "-b" )
             if [ "$project_exists" -eq 0 ]; then
