@@ -7,12 +7,6 @@ function project()   {
     if [ ! -d "$HOME/.config/project_tool/" ]; then
         mkdir "$HOME/.config/project_tool/"
     fi
-        
-    # Check if a project name is passed as an argument
-    if [ $# -eq 0 ]; then
-        echo "Please provide arguments."
-        return 1
-    fi
 
     # Check if the project config file exists and create it if not
     if [ ! -f "$DIR_CONFIG_FILE" ]; then
@@ -34,6 +28,15 @@ function project()   {
     text_editor=$(head -n 1 "$TEXED_CONFIG_FILE")
     if [ -z "$text_editor" ]; then
         text_editor="nvim" # Set a default text editor
+    fi
+
+    # With no parameters, list all projects and exit with success code.
+    if [ $# -eq 0 ]; then
+        ls -1 $project_dir
+        # stdout contains only filenames, so scripts calling `project` for a
+        # list of projects don't get messages in their list
+        echo 'Hint: use `project --help`' > /dev/stderr
+        return 0
     fi
 
     project_name="$1"
