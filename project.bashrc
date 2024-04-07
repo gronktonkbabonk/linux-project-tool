@@ -1,4 +1,4 @@
-#PUT THIS AT THE BOTTOM OF YOUR .BASHRC FILE
+#put this at the bottom of your .bashrc file
 function project()   {
 
     DIR_CONFIG_FILE="$HOME/.config/project_tool/.dir_project_config"
@@ -6,6 +6,12 @@ function project()   {
 
     if [ ! -d "$HOME/.config/project_tool/" ]; then
         mkdir "$HOME/.config/project_tool/"
+    fi
+        
+    # Check if a project name is passed as an argument
+    if [ $# -eq 0 ]; then
+        echo "Please provide arguments."
+        return 1
     fi
 
     # Check if the project config file exists and create it if not
@@ -30,15 +36,6 @@ function project()   {
         text_editor="nvim" # Set a default text editor
     fi
 
-    # With no parameters, list all projects and exit with success code.
-    if [ $# -eq 0 ]; then
-        ls -1 $project_dir
-        # stdout contains only filenames, so scripts calling `project` for a
-        # list of projects don't get messages in their list
-        echo 'Hint: use `project --help`' > /dev/stderr
-        return 0
-    fi
-
     project_name="$1"
     project_path="$project_dir/$project_name"
     project_exists=1
@@ -58,10 +55,17 @@ project [directory] -f: this will change the directory of where your projects ar
 project [directory] -f -d: additionally deletes the old project file and its contents.
 project [texteditor] -t: this will alter the text editor to the one specified. It needs to be able to open folders in the console.
 
-project -h/ --help: show this screen"
+project -h / --help: show this screen
+project -l / --list: list projects"
+
 return 0
 
 fi
+    if [ $1 = "-l" ] || [ $1 = "--list" ]; then
+        ls "$project_dir"
+        return 0
+    fi        
+
     if [ ! -d "$project_path" ]; then
         project_exists=0
     fi
@@ -88,12 +92,12 @@ fi
         "-f" )
             if [ "$3" == "-d" ]; then
                 rm -rf "$project_dir"
-                echo "deleted $project_dir and it's contents."
+                echo "deleted $project_dir and it's contents.'"
             fi
             if [ -d "$1" ]; then
                 # Set the project directory in the config file
                 echo "$1" > "$DIR_CONFIG_FILE"
-                echo "Project directory changed to $1. remember you have to have typed out the full directory. putting conditionals like ./ is not interpreted correctly."
+                echo "Project directory changed to $1"
                 return 0
             else
                 echo "Directory $1 does not exist."
