@@ -109,6 +109,20 @@ fi
             echo "Text editor changed to $1. reminder that it needs to be able to open folders in the console."
             return 1
             ;;
+        "-d" )
+            read -r -p "Are you sure? This will remove the project and all it's files. [Y/N] " response
+            case "$response" in 
+                [yY][eE][sS]|[yY]) 
+                    rm -rf "$project_dir/$project_name"
+                    echo "deleted $project_name and all it's files and subfolders."
+                    return 0
+                 ;;
+                *)
+                   echo "action cancelled"
+                   return 0
+                ;;
+            esac
+            ;;
         "" )
             if [ "$project_exists" -eq 0 ]; then
                 echo "$1 is not a recognized project in $project_dir"
