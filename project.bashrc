@@ -10,7 +10,7 @@ function project()   {
         
     # Check if a project name is passed as an argument
     if [ $# -eq 0 ]; then
-        echo "Please provide arguments."
+        echo "Please provide arguments. For usage, run: project -h"
         return 1
     fi
 
@@ -47,6 +47,7 @@ Usage:
 
 project [projectname]: this will cd to the project, open it in the file mgr and open it in your text editor (default nvim)
 project [projectname] -b: this will do the same, but cd into the project's build directory
+project [projectname] -d: deletes a project
 
 project [newprojectname] -c: this will create a new project in your project directory
 project [newprojectname] -c -o: this will do the same as above, but also open it as if you had opened it with this tool
